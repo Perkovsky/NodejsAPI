@@ -1,0 +1,22 @@
+{
+  "name": "nodejsapi",
+  "version": "1.0.0",
+  "description": "Node.js API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Perkovsky/NodejsAPI.git"
+  },
+  "keywords": [
+    "node.js"
+  ],
+  "author": "Igor Perkovsky <igor.v.perkovsky@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Perkovsky/NodejsAPI/issues"
+  },
+  "homepage": "https://github.com/Perkovsky/NodejsAPI#readme"
+}
