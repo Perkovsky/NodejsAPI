@@ -9,8 +9,8 @@ const config = require('./config/config')
 //import jsonwebtoken from 'jsonwebtoken'
 const routes = require('./routes/index')
 const logger = require('./infrastructure/logger')
-const logErrorsMiddleware = require('./middlewares/logErrorsMiddleware')
-const errorHandlerMiddleware = require('./middlewares/errorHandlerMiddleware')
+const logErrors = require('./middlewares/logErrors')
+const errorHandler = require('./middlewares/errorHandler')
 const app = express()
 
 app.use(morgan('tiny'))
@@ -31,8 +31,8 @@ app.get('/', (req, res) => res.redirect('/api-docs'))
 
 app.use('/api', routes)
 
-app.use(logErrorsMiddleware)
-app.use(errorHandlerMiddleware)
+app.use(logErrors)
+app.use(errorHandler)
 // process.on('unhandledRejection', err => {
 //     console.log(err.name, err.message);
 //     console.log('UNHANDLED REJECTION! Shutting down...');
