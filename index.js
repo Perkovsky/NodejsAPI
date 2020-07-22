@@ -25,7 +25,6 @@ app.get('/', (req, res) => res.redirect('/api-docs'))
 
 //TODO: 
 //  JWT
-//  Return Custom Model -> mapping DTO?
 //  CRUD Order
 
 

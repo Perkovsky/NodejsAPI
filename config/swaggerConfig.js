@@ -23,9 +23,11 @@ module.exports = {
         }
     },
     apis: [
-        './models/group.js',
-        './models/product.js',
+        './controllers/authController.js',
         './controllers/groupController.js',
-        './controllers/productController.js'
+        './controllers/productController.js',
+        './models/user.js',
+        './models/group.js',
+        './models/product.js'
     ]
   }

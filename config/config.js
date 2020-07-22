@@ -11,9 +11,8 @@ module.exports = {
         page: 1,
         pageSize: 25,
         maxPageSize: 100
+    },
+    authentication: {
+        jwtSecret: process.env.JWT_SECRET
     }
-    // ,
-    // authentication: {
-    //     jwtSecret: process.env.JWT_SECRET || 'secret'
-    // }
 }
