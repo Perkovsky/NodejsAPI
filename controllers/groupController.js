@@ -8,6 +8,8 @@ class GroupController {
     *   get:
     *     tags:
     *      - groups
+    *     security:
+    *      - bearerAuth: []
     *     summary: Get all groups
     *     description: Returns groups
     *     produces:
@@ -19,6 +21,10 @@ class GroupController {
     *           type: array
     *           items:
     *             $ref: '#/definitions/Group'
+    *       401:
+    *         description: access token is missing or invalid
+    *       500:
+    *         description: internal server error
     */
     async getGroups(req, res, next) {
         try {
@@ -35,6 +41,8 @@ class GroupController {
     *   get:
     *     tags:
     *      - groups
+    *     security:
+    *      - bearerAuth: []
     *     summary: Get groups by parent ID
     *     description: Returns groups by parent ID
     *     produces:
@@ -53,6 +61,10 @@ class GroupController {
     *           type: array
     *           items:
     *             $ref: '#/definitions/Group'
+    *       401:
+    *         description: access token is missing or invalid
+    *       500:
+    *         description: internal server error
     */
     async getGroupsByParentId(req, res, next) {
         try {

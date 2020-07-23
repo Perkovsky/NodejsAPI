@@ -10,6 +10,8 @@ class ProductController {
     *   get:
     *     tags:
     *      - products
+    *     security:
+    *      - bearerAuth: []
     *     summary: Get products by group ID
     *     description: Returns products by group ID
     *     produces:
@@ -28,6 +30,10 @@ class ProductController {
     *           type: array
     *           items:
     *             $ref: '#/definitions/Product'
+    *       401:
+    *         description: access token is missing or invalid
+    *       500:
+    *         description: internal server error
     */
     async getProductsByGroupId(req, res, next) {
         try {
@@ -44,6 +50,8 @@ class ProductController {
     *   get:
     *     tags:
     *      - products
+    *     security:
+    *      - bearerAuth: []
     *     summary: Get product by ID
     *     description: Returns product by ID
     *     produces:
@@ -61,8 +69,12 @@ class ProductController {
     *         schema:
     *           type: object
     *           $ref: '#/definitions/Product'
+    *       401:
+    *         description: access token is missing or invalid
     *       404:
     *         description: product not found
+    *       500:
+    *         description: internal server error
     */
     async getProductById(req, res, next) {
         try {
@@ -83,6 +95,8 @@ class ProductController {
     *   get:
     *     tags:
     *      - products
+    *     security:
+    *      - bearerAuth: []
     *     summary: Search products
     *     description: Search products
     *     produces:
@@ -110,6 +124,10 @@ class ProductController {
     *           type: array
     *           items:
     *             $ref: '#/definitions/Product'
+    *       401:
+    *         description: access token is missing or invalid
+    *       500:
+    *         description: internal server error
     */
     async search(req, res, next) {
         try {

@@ -13,6 +13,10 @@ module.exports = {
         maxPageSize: 100
     },
     authentication: {
-        jwtSecret: process.env.JWT_SECRET
+        jwtSecret: process.env.JWT_SECRET,
+        expiresIn: '1h'
+    },
+    swagger: {
+        uri: '/api-docs'
     }
 }
