@@ -21,11 +21,6 @@ const swaggerSpec = swaggerJSDoc(swaggerConfig)
 app.use(config.swagger.uri, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 app.get('/', (req, res) => res.redirect(config.swagger.uri))
 
-
-//TODO: 
-//  CRUD Order
-
-
 app.use('/api', routes)
 
 app.use(logErrors)

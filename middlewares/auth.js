@@ -14,6 +14,7 @@ module.exports = function (req, res, next) {
         if (err) {
             res.status(401).send('Access token is missing or invalid.')
         } else {
+            req.user = decode
             next()
         }
     })

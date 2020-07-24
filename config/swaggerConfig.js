@@ -28,8 +28,10 @@ module.exports = {
         './controllers/authController.js',
         './controllers/groupController.js',
         './controllers/productController.js',
+        './controllers/orderController.js',
         './models/user.js',
         './models/group.js',
-        './models/product.js'
+        './models/product.js',
+        './models/order.js'
     ]
   }

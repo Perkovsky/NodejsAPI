@@ -49,6 +49,7 @@ class AuthController {
     *            format: email
     *          password:
     *            type: string
+    *            format: password
     * definitions:
     *   Login:
     *     type: object
@@ -61,6 +62,7 @@ class AuthController {
     *         format: email
     *       password:
     *         type: string
+    *         format: password
     * /api/auth/login:
     *   post:
     *     tags:
