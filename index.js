@@ -12,7 +12,7 @@ const logErrors = require('./middlewares/logErrors')
 const errorHandler = require('./middlewares/errorHandler')
 const app = express()
 
-app.use(morgan('tiny'))
+app.use(morgan('tiny', { stream: logger.stream }))
 app.use(express.json())
 app.use(cors())
 
@@ -39,7 +39,6 @@ async function start() {
         })
         app.listen(+config.port, config.host, () => console.log(`Server is running on port ${config.port}`))
     } catch (error) {
-        console.log(error.stack)
         logger.error(error.stack)
     }
 }

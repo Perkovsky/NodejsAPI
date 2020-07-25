@@ -2,13 +2,15 @@ const logger = require('../infrastructure/logger')
  
 module.exports = function (err, req, res, next) {
     logger.error({
+        description: err.message,
         request: {
-            url: req.url,
+            ip: req.ip,
             method: req.method,
-            body: req.body
+            url: req.originalUrl,
         },
+        status: err.status || 500,
+        userAgent: req.headers['user-agent'],
         stackTrace: err.stack
     })
-    console.error(err.stack)
     next(err)
 }

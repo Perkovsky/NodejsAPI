@@ -14,7 +14,6 @@ exports.registerValidate = () => {
                         return Promise.reject('This email is already taken.')
                     }
                 } catch (error) {
-                    console.log(error.stack)
                     logger.error(error.stack)
                     return Promise.reject('Cannot check email for duplicates.')
                 }
