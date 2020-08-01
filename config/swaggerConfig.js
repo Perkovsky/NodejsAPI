@@ -31,6 +31,7 @@ module.exports = {
         './controllers/orderController.js',
         './models/user.js',
         './models/group.js',
+        './models/brand.js',
         './models/product.js',
         './models/order.js'
     ]

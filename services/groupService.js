@@ -1,15 +1,22 @@
-const mongoose = require('mongoose')
 const Group = require('../models/group')
 
 class GroupService {
     async getGroups() {
-        return await Group.find()
-            .select('_id ParentId Name PhotoUrl')
+        return await Group.findAll()
     }
 
     async getGroupsByParentId(parentId) {
-        return await Group.find({ParentId: parentId})
-            .select('_id ParentId Name PhotoUrl')
+        return await Group.findAll({
+            where: { 
+                parentId 
+            },
+            attributes: [
+                ['Id', 'id'],
+                ['ParentId', 'parentId'],
+                ['Name', 'name'], 
+                ['PhotoUrl', 'photoUrl']
+            ]
+        })
     }
 }
 

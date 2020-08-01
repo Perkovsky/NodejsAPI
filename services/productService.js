@@ -1,23 +1,53 @@
-const mongoose = require('mongoose')
+const Sequelize = require('sequelize')
+const { or, like } = Sequelize.Op
 const Product = require('../models/product')
 
 class ProductService {
     async getProductsByGroupId(groupId) {
-        return await Product.find({ParentId: groupId})
-            .select('_id ParentId Name Price PhotoUrl')
+        return await Product.findAll({
+            where: { 
+                parentId: groupId
+            },
+            attributes: [
+                ['Id', 'id'],
+                ['ParentId', 'parentId'],
+                ['Name', 'name'], 
+                ['Price', 'price'],
+                ['PhotoUrl', 'photoUrl']
+            ]
+        })
     }
 
     async getProductById(id) {
-        return await Product.findById(id)
+        return await Product.findByPk(id, {
+            attributes: { exclude: ['BrandId'] },
+            include: ['brand']
+        })
     }
 
     async search(searchString, page, pageSize) {
         const regex = new RegExp('.*' + searchString + '.*' , 'i')
-        return await Product.find({ $or: [ {Keywords: regex}, {Name: regex}, {Description: regex} ] })
-            .select('_id ParentId Name Price PhotoUrl')
-            .limit(pageSize)
-            .skip((page - 1) * pageSize)
-            .sort({Name: 'asc'})
+        return await Product.findAndCountAll({
+            where: { 
+                [or]: [
+                    { name: { [like]: `%${searchString}%` } },
+                    { description: { [like]: `%${searchString}%` } },
+                    { keywords: { [like]: `%${searchString}%` } }
+                ]
+            },
+            order: [
+                ['name', 'ASC']
+            ],
+            limit: pageSize,
+            offset: (page - 1) * pageSize,
+            attributes: [
+                ['Id', 'id'],
+                ['ParentId', 'parentId'],
+                ['Name', 'name'], 
+                ['Price', 'price'],
+                ['PhotoUrl', 'photoUrl']
+            ]
+        })
     }
 }
 

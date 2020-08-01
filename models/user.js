@@ -1,47 +1,49 @@
-const {Schema, model} = require('mongoose')
+const { STRING } = require('sequelize')
+const sequelize = require('./index')
+const { entity, options } = require('./commonModel')
 const bcrypt = require("bcrypt")
 
-const userSchema = new Schema({
+function hashPassword (user, options) {
+    if(!user.changed('password')) {
+        return
+    }
+    return bcrypt.hash(user.password, 10)
+        .then(function(hash) {
+            user.password = hash
+        })
+}
+
+const user = sequelize.define('User', {
+    ...entity,
     email: {
-        type: String,
-        required: true,
+        type: STRING,
+        allowNull: false,
         unique: true,
+        validate: {
+            isEmail: true
+        }
     },
     name: {
-        type: String,
-        required: true,
-        trim: true
+        type: STRING,
+        allowNull: false
     },
     password: {
-        type: String,
-        required: true,
-        trim: true
+        type: STRING,
+        allowNull: false
+    }
+}, { 
+    ...options,
+    hooks: {
+        beforeCreate: hashPassword,
+        beforeUpdate: hashPassword
     }
 })
 
-userSchema.pre("save", function(next) {
-    if (!this.isModified("password")) {
-        return next()
-    }
-    bcrypt.genSalt(10, (err, salt) => {
-        if (err) {
-            return next(err)
-        }
-        bcrypt.hash(this.password, salt, (err, hash) => {
-            if (err) {
-                return next(err)
-            }
-            this.password = hash
-            next()
-        })
-    })
-})
-
-userSchema.methods.comparePassword = async function (password) {
+user.prototype.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
-module.exports = model('User', userSchema)
+module.exports = user
 
 /**
  * @swagger

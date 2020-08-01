@@ -1,73 +1,79 @@
-const {Schema, model} = require('mongoose')
+const { INTEGER, DECIMAL, STRING } = require('sequelize')
+const sequelize = require('./index')
+const { entity, options } = require('./commonModel')
+const Brand = require('./brand')
 
-const productSchema = new Schema({
-    _id: {
-        type: Number,
-        required: true
-    },
+const product = sequelize.define('Product', {
+    ...entity,
     parentId: {
-        type: Number,
-        alias: 'ParentId'
+        type: INTEGER,
+        allowNull: false,
+        field: 'ParentId'
     },
     name: {
-        type: String,
-        alias: 'Name',
-        required: true
-    },
-    price: {
-        type: Number,
-        alias: 'Price'
-    },
-    statusProduct: {
-        type: Number,
-        alias: 'StatusProduct'
-    },
-    brandProduct: {
-        _id: {
-            type: Number,
-            required: true
-        },
-        name: {
-            type: String,
-            alias: 'Name',
-            required: true
-        }
-    },
-    description: {
-        type: String,
-        alias: 'Description'
+        type: STRING,
+        allowNull: false,
+        field: 'Name'
     },
     keywords: {
-        type: String,
-        alias: 'Keywords'
+        type: STRING,
+        field: 'Keywords'
+    },
+    price: {
+        type: DECIMAL(10, 2),
+        field: 'Price'
+    },
+    statusProduct: {
+        type: INTEGER,
+        field: 'StatusProduct'
+    },
+    description: {
+        type: STRING,
+        field: 'Description'
     },
     photoUrl: {
-        type: String,
-        alias: 'PhotoUrl'
+        type: STRING,
+        field: 'PhotoUrl',
+        validate: {
+            isUrl: true
+        }
     },
     photoUrlBig: {
-        type: String,
-        alias: 'PhotoUrlBig'
+        type: STRING,
+        field: 'PhotoUrlBig',
+        validate: {
+            isUrl: true
+        }
     },
     videoUrl: {
-        type: String,
-        alias: 'VideoUrl'
+        type: STRING,
+        field: 'VideoUrl',
+        validate: {
+            isUrl: true
+        }
     },
     availability: {
-        type: String,
-        alias: 'Availability'
+        type: STRING,
+        field: 'Availability'
     },
     wholesalePacking: {
-        type: Number,
-        alias: 'WholesalePacking'
+        type: INTEGER,
+        field: 'WholesalePacking'
     },
     limitOrderDays: {
-        type: Number,
-        alias: 'LimitOrderDays'
+        type: INTEGER,
+        field: 'LimitOrderDays'
     }
+}, { 
+    ...options
 })
 
-module.exports = model('Product', productSchema)
+product.belongsTo(Brand, {
+    foreignKey: 'BrandId',
+    as: 'brand'
+})
+
+module.exports = product
 
 /**
  * @swagger
@@ -76,10 +82,10 @@ module.exports = model('Product', productSchema)
  *      Product:
  *        type: object
  *        required:
- *          - _id
+ *          - id
  *          - name
  *        properties:
- *          _id:
+ *          id:
  *            type: integer
  *            format: int64
  *          parentId:
@@ -87,17 +93,9 @@ module.exports = model('Product', productSchema)
  *            format: int64
  *          name:
  *            type: string
- *          brandProduct:
- *            type: object
- *            required:
- *              - _id
- *              - name
- *            properties:
- *              _id:
- *                type: integer
- *                format: int64
- *              name:
- *                type: string
+ *          brandId:
+ *            type: integer
+ *            format: int64
  *          keywords:
  *            type: string
  *          availability:
@@ -130,10 +128,10 @@ module.exports = model('Product', productSchema)
  *   Product:
  *     type: object
  *     required:
- *       - _id
+ *       - id
  *       - name
  *     properties:
- *       _id:
+ *       id:
  *         type: integer
  *         format: int64
  *       parentId:
@@ -141,17 +139,9 @@ module.exports = model('Product', productSchema)
  *         format: int64
  *       name:
  *         type: string
- *       brandProduct:
- *         type: object
- *         required:
- *           - _id
- *           - name
- *         properties:
- *           _id:
- *             type: integer
- *             format: int64
- *           name:
- *             type: string
+ *       brandId:
+ *         type: integer
+ *         format: int64
  *       keywords:
  *         type: string
  *       availability:

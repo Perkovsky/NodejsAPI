@@ -5,7 +5,7 @@ module.exports = {
     host: process.env.HOST,
     port: process.env.PORT,
     db: {
-        connectionString: process.env.MONGODB_URI
+        connectionString: process.env.POSTGRESQL_URI
     },
     pagination: {
         page: 1,

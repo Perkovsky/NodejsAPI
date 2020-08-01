@@ -2,7 +2,7 @@ const express = require('express')
 const swaggerUi = require("swagger-ui-express")
 const swaggerJSDoc = require('swagger-jsdoc')
 const swaggerConfig = require('./config/swaggerConfig')
-const mongoose = require('mongoose')
+const sequelize = require('./models/index')
 const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./config/config')
@@ -33,10 +33,7 @@ app.use(errorHandler)
 
 async function start() {
     try {
-        await mongoose.connect(config.db.connectionString, {
-            useUnifiedTopology: true,
-            useNewUrlParser: true
-        })
+        await sequelize.sync()
         app.listen(+config.port, config.host, () => console.log(`Server is running on port ${config.port}`))
     } catch (error) {
         logger.error(error.stack)

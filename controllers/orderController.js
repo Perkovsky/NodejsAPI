@@ -76,8 +76,8 @@ class OrderController {
     *         description: order ID
     *         in: path
     *         required: true
-    *         type: string
-    *         format: uuid
+    *         type: integer
+    *         format: int64
     *     responses:
     *       200:
     *         description: order
@@ -106,7 +106,7 @@ class OrderController {
         }
     }
 
-     /**
+    /**
     * @swagger
     * /api/orders:
     *   post:
@@ -121,13 +121,13 @@ class OrderController {
     *       content:
     *         application/json:
     *           schema:
-    *             $ref: '#/components/schemas/Order'
+    *             $ref: '#/definitions/Order'
     *     responses:
     *       201:
     *         description: order
     *         schema:
-    *           type: string
-    *           format: uuid
+    *           type: integer
+    *           format: int64
     *       401:
     *         description: access token is missing or invalid
     *       500:
@@ -160,21 +160,21 @@ class OrderController {
     *         description: order ID
     *         in: path
     *         required: true
-    *         type: string
-    *         format: uuid
+    *         type: integer
+    *         format: int64
     *     requestBody:
     *       description: Returns order ID
     *       required: true
     *       content:
     *         application/json:
     *           schema:
-    *             $ref: '#/components/schemas/Order'
+    *             $ref: '#/definitions/Order'
     *     responses:
     *       200:
     *         description: order
     *         schema:
-    *           type: string
-    *           format: uuid
+    *           type: integer
+    *           format: int64
     *       401:
     *         description: access token is missing or invalid
     *       404:
@@ -215,8 +215,8 @@ class OrderController {
     *         description: order ID
     *         in: path
     *         required: true
-    *         type: string
-    *         format: uuid
+    *         type: integer
+    *         format: int64
     *     responses:
     *       204:
     *         description: order deleted successfully

@@ -9,7 +9,11 @@ exports.registerValidate = () => {
             .withMessage('Incorrect email.')
             .custom(async (value, {req}) => {
                 try {
-                    const user = await User.findOne({ email: value.toLowerCase() })
+                    const user = await User.findOne({
+                        where: {
+                            email: value.toLowerCase()
+                        }
+                    })
                     if (user) {
                         return Promise.reject('This email is already taken.')
                     }

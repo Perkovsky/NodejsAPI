@@ -1,20 +1,45 @@
-const mongoose = require('mongoose')
+const User = require('../models/user')
+const Product = require('../models/product')
 const Order = require('../models/order')
+const OrderItem = require('../models/orderItem')
 
 class OrderService {
     async getOrders(userId, page, pageSize) {
-        return await Order.find({userId})
-            .limit(pageSize)
-            .skip((page - 1) * pageSize)
-            .sort({dateCreated: 'desc'})
+        return await Order.findAll({
+            where: { UserId: userId },
+            order: [
+                ['dateCreated', 'DESC']
+            ],
+            limit: pageSize,
+            offset: (page - 1) * pageSize,
+            attributes: [['Id', 'id'], 'dateCreated']
+        })
     }
 
     async getOrderById(userId, id) {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return null
-        }
-        const result = await Order.findById(id)
-        if (result && result.userId == userId) {
+        const result = await Order.findByPk(id, {
+            attributes: { exclude: ['UserId'] },
+            include: [
+                {
+                    model: User,
+                    as: 'user',
+                    attributes: [['Id', 'id'], 'name', 'email']
+                },
+                {
+                    model: OrderItem,
+                    as: 'orderItems',
+                    attributes: [['Id', 'id'], 'count', 'price'],
+                    include: [
+                        {
+                            model: Product,
+                            as: 'product',
+                            attributes: [['Id', 'id'], 'name']
+                        }
+                    ]
+                }
+            ]
+        })
+        if (result && result.user.id == userId) {
             return result
         } else {
             return null
@@ -22,24 +47,41 @@ class OrderService {
     }
 
     async createOrder(userId, items) {
-        const order = new Order({userId, items})
-        return await order.save()
+        const order = await Order.create({UserId: userId})
+        if (order) {
+            const orderItems = await OrderItem.bulkCreate(items.map(obj=> ({ ...obj, orderId: order.id })))
+        }
+        return order
     }
 
     async updateOrder(userId, id, items) {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return null
+        const result = await Order.update({dateModified: Date.now()}, {
+            where: {
+                Id: id,
+                UserId: userId
+            }
+        })
+        if (Array.isArray(result) && result[0] > 0) {
+            await OrderItem.destroy({
+                where: {
+                    orderId: id
+                }
+            })
+            const orderItems = await OrderItem.bulkCreate(items.map(obj=> ({ ...obj, orderId: id })))
+            return {id}
+        } else {
+            return {}
         }
-        const filter = { _id: id, userId }
-        const update = { items, dateModified: Date.now() }
-        return await Order.findOneAndUpdate(filter, update)
     }
 
     async deleteOrder(userId, id) {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return null
-        }
-        return await Order.deleteOne({_id: id, userId})
+        await Order.destroy({
+            where: {
+                Id: id,
+                UserId: userId
+            }
+        })
+        return { deletedCount: 1 }
     }
 }
 

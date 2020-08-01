@@ -1,45 +1,36 @@
-const {Schema, model} = require('mongoose')
+const { DATE, NOW } = require('sequelize')
+const sequelize = require('./index')
+const { entity, options } = require('./commonModel')
+const User = require('./user')
+const OrderItem = require('./orderItem')
 
-const orderSchema = new Schema({
-    userId: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    dateCreted: {
-        type: Date,
-        default: Date.now,
-        required: true
+const order = sequelize.define('Order', {
+    ...entity,
+    dateCreated: {
+        type: DATE,
+        defaultValue: NOW,
+        allowNull: false
     },
     dateModified: {
-        type: Date,
-        default: Date.now,
-        required: true
-    },
-    items: [
-        {
-            productId: {
-                type: Number,
-                required: true
-            },
-            name: {
-                type: String,
-                required: true
-            },
-            count: {
-                type: Number,
-                required: true,
-                default: 1
-            },
-            price: {
-                type: Number,
-                required: true
-            }
-        }
-    ]
+        type: DATE,
+        defaultValue: NOW,
+        allowNull: false
+    }
+}, {
+    ...options
 })
 
-module.exports = model('Order', orderSchema)
+order.belongsTo(User, {
+    foreignKey: 'UserId',
+    as: 'user'
+})
+order.hasMany(OrderItem, {
+    foreignKey: 'orderId',
+    as: 'orderItems',
+    onDelete: 'CASCADE'
+})
+
+module.exports = order
 
 /**
  * @swagger
@@ -51,9 +42,9 @@ module.exports = model('Order', orderSchema)
  *          - items
  *        properties:
  *          userId:
- *            type: string
- *            format: uuid
- *          dateCreted:
+ *            type: integer
+ *            format: int64
+ *          dateCreated:
  *            type: string
  *            format: date
  *          dateModified:
@@ -64,11 +55,12 @@ module.exports = model('Order', orderSchema)
  *            items:
  *              type: object
  *              properties:
+ *                id:
+ *                  type: integer
+ *                  format: int64
  *                productId:
  *                  type: integer
  *                  format: int64
- *                name:
- *                  type: string
  *                count:
  *                  type: integer
  *                  format: int32
@@ -81,15 +73,6 @@ module.exports = model('Order', orderSchema)
  *     required:
  *       - items
  *     properties:
- *       userId:
- *         type: integer
- *         format: int64
- *       dateCreted:
- *         type: string
- *         format: date
- *       dateModified:
- *         type: string
- *         format: date
  *       items:
  *         type: array
  *         items:
@@ -98,8 +81,6 @@ module.exports = model('Order', orderSchema)
  *             productId:
  *               type: integer
  *               format: int64
- *             name:
- *               type: string
  *             count:
  *               type: integer
  *               format: int32

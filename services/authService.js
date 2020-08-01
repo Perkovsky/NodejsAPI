@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const User = require('../models/user')
@@ -16,12 +15,16 @@ function getToken(user) {
 
 class AuthService {
     async register(email, name, password) {
-        const user = new User({email, name, password})
-        return await user.save()
+        const user = await User.create({email, name, password})
+        return user
     }
 
     async login(email, password) {
-        const user = await User.findOne({ email: email.toLowerCase() })
+        const user = await User.findOne({
+            where: {
+                email: email.toLowerCase()
+            }
+        })
         if (!user) {
             return { error: 'Authentication failed.'}
         }

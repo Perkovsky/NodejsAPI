@@ -1,30 +1,34 @@
-const {Schema, model} = require('mongoose')
+const { INTEGER, STRING } = require('sequelize')
+const sequelize = require('./index')
+const { entity, options } = require('./commonModel')
 
-const groupSchema = new Schema({
-    _id: {
-        type: Number,
-        required: true
-    },
+const group = sequelize.define('Group', {
+    ...entity,
     parentId: {
-        type: Number,
-        alias: 'ParentId'
+        type: INTEGER,
+        field: 'ParentId'
     },
     name: {
-        type: String,
-        alias: 'Name',
-        required: true
+        type: STRING,
+        allowNull: false,
+        field: 'Name'
     },
     keywords: {
-        type: String,
-        alias: 'Keywords'
+        type: STRING,
+        field: 'Keywords'
     },
     photoUrl: {
-        type: String,
-        alias: 'PhotoUrl'
+        type: STRING,
+        field: 'PhotoUrl',
+        validate: {
+            isUrl: true
+        }
     }
+}, { 
+    ...options
 })
 
-module.exports = model('Group', groupSchema)
+module.exports = group
 
 /**
  * @swagger
@@ -33,10 +37,10 @@ module.exports = model('Group', groupSchema)
  *      Group:
  *        type: object
  *        required:
- *          - _id
+ *          - id
  *          - name
  *        properties:
- *          _id:
+ *          id:
  *            type: integer
  *            format: int64
  *          parentId:
@@ -54,10 +58,10 @@ module.exports = model('Group', groupSchema)
  *   Group:
  *     type: object
  *     required:
- *       - _id
+ *       - id
  *       - name
  *     properties:
- *       _id:
+ *       id:
  *         type: integer
  *         format: int64
  *       parentId:
