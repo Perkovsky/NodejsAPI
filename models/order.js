@@ -6,7 +6,7 @@ const orderSchema = new Schema({
         ref: 'User',
         required: true
     },
-    dateCreted: {
+    dateCreated: {
         type: Date,
         default: Date.now,
         required: true
@@ -53,7 +53,7 @@ module.exports = model('Order', orderSchema)
  *          userId:
  *            type: string
  *            format: uuid
- *          dateCreted:
+ *          dateCreated:
  *            type: string
  *            format: date
  *          dateModified:
@@ -84,7 +84,7 @@ module.exports = model('Order', orderSchema)
  *       userId:
  *         type: integer
  *         format: int64
- *       dateCreted:
+ *       dateCreated:
  *         type: string
  *         format: date
  *       dateModified:
