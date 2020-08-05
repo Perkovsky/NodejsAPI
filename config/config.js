@@ -15,8 +15,5 @@ module.exports = {
     authentication: {
         jwtSecret: process.env.JWT_SECRET,
         expiresIn: '1h'
-    },
-    swagger: {
-        uri: '/api-docs'
     }
 }

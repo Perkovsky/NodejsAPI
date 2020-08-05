@@ -1,30 +1,48 @@
 const express = require('express')
-const swaggerUi = require("swagger-ui-express")
-const swaggerJSDoc = require('swagger-jsdoc')
-const swaggerConfig = require('./config/swaggerConfig')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./config/config')
-const routes = require('./routes/index')
+const { graphqlHTTP } = require('express-graphql');
+const expressPlayground = require('graphql-playground-middleware-express').default
+const schema = require('./schemas/index')
+const resolver = require('./resolvers/index')
 const logger = require('./infrastructure/logger')
-const logErrors = require('./middlewares/logErrors')
-const errorHandler = require('./middlewares/errorHandler')
+const auth = require('./middlewares/auth')
 const app = express()
 
 app.use(morgan('tiny', { stream: logger.stream }))
 app.use(express.json())
 app.use(cors())
+app.use(auth)
 
-// Swagger
-const swaggerSpec = swaggerJSDoc(swaggerConfig)
-app.use(config.swagger.uri, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-app.get('/', (req, res) => res.redirect(config.swagger.uri))
+app.use('/graphql', graphqlHTTP(req => ({
+    schema: schema,
+    rootValue: resolver,
+    graphiql: true,
+    context: {
+        user: req.user,
+        error: req.error
+    },
+    customFormatErrorFn: error => {
+        logger.error({
+            description: error.message,
+            stackTrace: error.stack
+        })
+        return ({
+            message: error.message,
+            locations: error.locations,
+            stack: error.stack ? error.stack.split('\n') : [],
+            path: error.path
+        })
+    }
+})))
+app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
 
-app.use('/api', routes)
+//TODO:
+//  Validators
 
-app.use(logErrors)
-app.use(errorHandler)
+
 // process.on('unhandledRejection', err => {
 //     console.log(err.name, err.message)
 //     console.log('UNHANDLED REJECTION! Shutting down...')

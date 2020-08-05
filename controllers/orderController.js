@@ -3,41 +3,6 @@ const OrderService = require('../services/orderService')
     
 class OrderController {
 
-    /**
-    * @swagger
-    * /api/orders:
-    *   get:
-    *     tags:
-    *      - orders
-    *     security:
-    *      - bearerAuth: []
-    *     summary: Get all orders of current user
-    *     description: Returns orders
-    *     produces:
-    *      - application/json
-    *     parameters:
-    *       - name: page
-    *         description: current page, by default = 1
-    *         in: query
-    *         type: integer
-    *         format: int32
-    *       - name: pageSize
-    *         description: max products on page, by default = 25
-    *         in: query
-    *         type: integer
-    *         format: int32
-    *     responses:
-    *       200:
-    *         description: orders
-    *         schema:
-    *           type: array
-    *           items:
-    *             $ref: '#/definitions/Order'
-    *       401:
-    *         description: access token is missing or invalid
-    *       500:
-    *         description: internal server error
-    */
     async getOrders(req, res, next) {
         try {
             const defaultPage = config.pagination.page
@@ -59,38 +24,6 @@ class OrderController {
         }
     }
 
-    /**
-    * @swagger
-    * /api/orders/{id}:
-    *   get:
-    *     tags:
-    *      - orders
-    *     security:
-    *      - bearerAuth: []
-    *     summary: Get order by ID
-    *     description: Returns order by ID
-    *     produces:
-    *      - application/json
-    *     parameters:
-    *       - name: id
-    *         description: order ID
-    *         in: path
-    *         required: true
-    *         type: string
-    *         format: uuid
-    *     responses:
-    *       200:
-    *         description: order
-    *         schema:
-    *           type: object
-    *           $ref: '#/definitions/Order'
-    *       401:
-    *         description: access token is missing or invalid
-    *       404:
-    *         description: order not found
-    *       500:
-    *         description: internal server error
-    */
     async getOrderById(req, res, next) {
         try {
             const userId = req.user.id 
@@ -106,33 +39,6 @@ class OrderController {
         }
     }
 
-     /**
-    * @swagger
-    * /api/orders:
-    *   post:
-    *     tags:
-    *      - orders
-    *     security:
-    *      - bearerAuth: []
-    *     summary: Create new order
-    *     requestBody:
-    *       description: Returns order ID
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             $ref: '#/components/schemas/Order'
-    *     responses:
-    *       201:
-    *         description: order
-    *         schema:
-    *           type: string
-    *           format: uuid
-    *       401:
-    *         description: access token is missing or invalid
-    *       500:
-    *         description: internal server error
-    */
     async createOrder(req, res, next) {
         try {
             const userId = req.user.id
@@ -144,44 +50,6 @@ class OrderController {
         }
     }
 
-     /**
-    * @swagger
-    * /api/orders/{id}:
-    *   put:
-    *     tags:
-    *      - orders
-    *     security:
-    *      - bearerAuth: []
-    *     summary: Update order
-    *     produces:
-    *      - application/json
-    *     parameters:
-    *       - name: id
-    *         description: order ID
-    *         in: path
-    *         required: true
-    *         type: string
-    *         format: uuid
-    *     requestBody:
-    *       description: Returns order ID
-    *       required: true
-    *       content:
-    *         application/json:
-    *           schema:
-    *             $ref: '#/components/schemas/Order'
-    *     responses:
-    *       200:
-    *         description: order
-    *         schema:
-    *           type: string
-    *           format: uuid
-    *       401:
-    *         description: access token is missing or invalid
-    *       404:
-    *         description: order not found
-    *       500:
-    *         description: internal server error
-    */
     async updateOrder(req, res, next) {
         try {
             const userId = req.user.id
@@ -198,35 +66,6 @@ class OrderController {
         }
     }
 
-    /**
-    * @swagger
-    * /api/orders/{id}/:
-    *   delete:
-    *     tags:
-    *      - orders
-    *     security:
-    *      - bearerAuth: []
-    *     summary: Delete order
-    *     description: Delete order
-    *     produces:
-    *      - application/json
-    *     parameters:
-    *       - name: id
-    *         description: order ID
-    *         in: path
-    *         required: true
-    *         type: string
-    *         format: uuid
-    *     responses:
-    *       204:
-    *         description: order deleted successfully
-    *       401:
-    *         description: access token is missing or invalid
-    *       404:
-    *         description: order not found
-    *       500:
-    *         description: internal server error
-    */
     async deleteOrder(req, res, next) {
         try {
             const userId = req.user.id 

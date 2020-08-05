@@ -4,7 +4,8 @@ const config = require('../config/config')
 module.exports = function (req, res, next) {
     const auth = req.headers ? req.headers.authorization : null
     if (!auth) {
-        return res.status(401).send('Access token is missing or invalid.')
+        req.error = 'Access token is missing or invalid.'
+        return next()
     }
 
     const secret = config.authentication.jwtSecret
@@ -12,10 +13,10 @@ module.exports = function (req, res, next) {
 
     jwt.verify(token, secret, (err, decode) => {
         if (err) {
-            res.status(401).send('Access token is missing or invalid.')
-        } else {
-            req.user = decode
-            next()
+            req.error = 'Access token is missing or invalid.'
+            return next()
         }
+        req.user = decode
+        next()
     })
 }

@@ -5,179 +5,53 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
-    parentId: {
-        type: Number,
-        alias: 'ParentId'
+    ParentId: {
+        type: Number
     },
-    name: {
+    Name: {
         type: String,
-        alias: 'Name',
         required: true
     },
-    price: {
-        type: Number,
-        alias: 'Price'
+    Price: {
+        type: Number
     },
-    statusProduct: {
-        type: Number,
-        alias: 'StatusProduct'
+    StatusProduct: {
+        type: Number
     },
-    brandProduct: {
+    BrandProduct: {
         _id: {
             type: Number,
             required: true
         },
-        name: {
+        Name: {
             type: String,
-            alias: 'Name',
             required: true
         }
     },
-    description: {
-        type: String,
-        alias: 'Description'
+    Description: {
+        type: String
     },
-    keywords: {
-        type: String,
-        alias: 'Keywords'
+    Keywords: {
+        type: String
     },
-    photoUrl: {
-        type: String,
-        alias: 'PhotoUrl'
+    PhotoUrl: {
+        type: String
     },
-    photoUrlBig: {
-        type: String,
-        alias: 'PhotoUrlBig'
+    PhotoUrlBig: {
+        type: String
     },
-    videoUrl: {
-        type: String,
-        alias: 'VideoUrl'
+    VideoUrl: {
+        type: String
     },
-    availability: {
-        type: String,
-        alias: 'Availability'
+    Availability: {
+        type: String
     },
-    wholesalePacking: {
-        type: Number,
-        alias: 'WholesalePacking'
+    WholesalePacking: {
+        type: Number
     },
-    limitOrderDays: {
-        type: Number,
-        alias: 'LimitOrderDays'
+    LimitOrderDays: {
+        type: Number
     }
 })
 
 module.exports = model('Product', productSchema)
-
-/**
- * @swagger
- *  components:
- *    schemas:
- *      Product:
- *        type: object
- *        required:
- *          - _id
- *          - name
- *        properties:
- *          _id:
- *            type: integer
- *            format: int64
- *          parentId:
- *            type: integer
- *            format: int64
- *          name:
- *            type: string
- *          brandProduct:
- *            type: object
- *            required:
- *              - _id
- *              - name
- *            properties:
- *              _id:
- *                type: integer
- *                format: int64
- *              name:
- *                type: string
- *          keywords:
- *            type: string
- *          availability:
- *            type: string
- *          description:
- *            type: string
- *          photoUrl:
- *            type: string
- *            format: uri
- *          photoUrlBig:
- *            type: string
- *            format: uri
- *          videoUrl:
- *            type: string
- *            format: uri
- *          price:
- *            type: number
- *            format: double
- *          statusProduct:
- *            type: integer
- *            format: int32
- *          wholesalePacking:
- *            type: integer
- *            format: int32
- *          limitOrderDays:
- *            nullable: true
- *            type: integer
- *            format: int32
- * definitions:
- *   Product:
- *     type: object
- *     required:
- *       - _id
- *       - name
- *     properties:
- *       _id:
- *         type: integer
- *         format: int64
- *       parentId:
- *         type: integer
- *         format: int64
- *       name:
- *         type: string
- *       brandProduct:
- *         type: object
- *         required:
- *           - _id
- *           - name
- *         properties:
- *           _id:
- *             type: integer
- *             format: int64
- *           name:
- *             type: string
- *       keywords:
- *         type: string
- *       availability:
- *         type: string
- *       description:
- *         type: string
- *       photoUrl:
- *         type: string
- *         format: uri
- *       photoUrlBig:
- *         type: string
- *         format: uri
- *       videoUrl:
- *         type: string
- *         format: uri
- *       price:
- *         type: number
- *         format: double
- *       statusProduct:
- *         type: integer
- *         format: int32
- *       wholesalePacking:
- *         type: integer
- *         format: int32
- *       limitOrderDays:
- *         nullable: true
- *         type: integer
- *         format: int32
- */

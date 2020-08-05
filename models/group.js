@@ -5,70 +5,19 @@ const groupSchema = new Schema({
         type: Number,
         required: true
     },
-    parentId: {
-        type: Number,
-        alias: 'ParentId'
+    ParentId: {
+        type: Number
     },
-    name: {
+    Name: {
         type: String,
-        alias: 'Name',
         required: true
     },
-    keywords: {
-        type: String,
-        alias: 'Keywords'
+    Keywords: {
+        type: String
     },
-    photoUrl: {
-        type: String,
-        alias: 'PhotoUrl'
+    PhotoUrl: {
+        type: String
     }
 })
 
 module.exports = model('Group', groupSchema)
-
-/**
- * @swagger
- *  components:
- *    schemas:
- *      Group:
- *        type: object
- *        required:
- *          - _id
- *          - name
- *        properties:
- *          _id:
- *            type: integer
- *            format: int64
- *          parentId:
- *            nullable: true
- *            type: integer
- *            format: int64
- *          name:
- *            type: string
- *          keywords:
- *            type: string
- *          photoUrl:
- *            type: string
- *            format: uri
- * definitions:
- *   Group:
- *     type: object
- *     required:
- *       - _id
- *       - name
- *     properties:
- *       _id:
- *         type: integer
- *         format: int64
- *       parentId:
- *         nullable: true
- *         type: integer
- *         format: int64
- *       name:
- *         type: string
- *       keywords:
- *         type: string
- *       photoUrl:
- *         type: string
- *         format: uri
- */
