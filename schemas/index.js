@@ -2,11 +2,12 @@ const { buildSchema } = require('graphql')
 const auth = require('./auth')
 const group = require('./group')
 const product = require('./product')
+const order = require('./order')
 
 const types = []
 const queries = []
 const mutations = []
-const schemas = [ auth, group, product ]
+const schemas = [ auth, group, product, order ]
 
 schemas.forEach(x => {
     if (x.types) types.push(x.types)

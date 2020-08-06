@@ -37,9 +37,10 @@ class OrderService {
 
     async deleteOrder(userId, id) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return null
+            return false
         }
-        return await Order.deleteOne({_id: id, userId})
+        const result = await Order.deleteOne({_id: id, userId})
+        return result && result.deletedCount > 0
     }
 }
 

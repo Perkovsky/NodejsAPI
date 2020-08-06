@@ -39,10 +39,6 @@ app.use('/graphql', graphqlHTTP(req => ({
 })))
 app.get('/playground', expressPlayground({ endpoint: '/graphql' }))
 
-//TODO:
-//  Validators
-
-
 // process.on('unhandledRejection', err => {
 //     console.log(err.name, err.message)
 //     console.log('UNHANDLED REJECTION! Shutting down...')
