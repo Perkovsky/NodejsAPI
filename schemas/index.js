@@ -1,4 +1,4 @@
-const { buildSchema } = require('graphql')
+const { gql } = require('apollo-server')
 const auth = require('./auth')
 const group = require('./group')
 const product = require('./product')
@@ -15,7 +15,13 @@ schemas.forEach(x => {
     if (x.mutations) mutations.push(x.mutations)
 })
 
-let source = types.length > 0 ? `${types.join('\n')}` : ``
+// common types
+let source = `
+    scalar Date
+`
+if (types.length > 0) {
+    source += `${types.join('\n')}`
+}
 if (queries.length > 0) {
     source += `
         type Query {
@@ -31,4 +37,4 @@ if (mutations.length > 0) {
     `
 }
 
-module.exports = buildSchema(source)
+module.exports = gql`${source}`

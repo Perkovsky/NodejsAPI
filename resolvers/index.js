@@ -4,8 +4,16 @@ const product = require('./product')
 const order = require('./order')
 
 module.exports = {
-    ...auth,
-    ...group,
-    ...product,
-    ...order
+    Query: {
+        ...auth.queries,
+        ...group.queries,
+        ...product.queries,
+        ...order.queries
+    },
+    Mutation: {
+        ...auth.mutations,
+        ...group.mutations,
+        ...product.mutations,
+        ...order.mutations
+    }
 }

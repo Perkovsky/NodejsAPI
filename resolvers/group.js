@@ -1,15 +1,16 @@
+const authenticated = require('./authGuard')
 const GroupService = require('../services/groupService')
 
-module.exports = {
-    groups: async ({parentId}, context) => {
-        const {error} = context
-        if (error) {
-            throw new Error(error)
-        }
+const queries = {
+    groups: authenticated(async (_, {parentId}, context) => {
         if (parentId) {
             return await GroupService.getGroupsByParentId(+parentId)
         } else {
             return await GroupService.getGroups()
         }
-    }
+    })
 }
+
+const mutations = {}
+
+module.exports = { queries, mutations }

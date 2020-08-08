@@ -1,29 +1,17 @@
+const authenticated = require('./authGuard')
 const config = require('../config/config')
 const ProductService = require('../services/productService')
 
-module.exports = {
-    products: async ({groupId}, context) => {
-        const {error} = context
-        if (error) {
-            throw new Error(error)
-        }
+const queries = {
+    products: authenticated(async (_, {groupId}, context) => {
         return await ProductService.getProductsByGroupId(+groupId)
-    },
+    }),
 
-    product: async ({id}, context) => {
-        const {error} = context
-        if (error) {
-            throw new Error(error)
-        }
+    product: authenticated(async (_, {id}, context) => {
         return await ProductService.getProductById(+id)
-    },
+    }),
 
-    search: async ({searchString, page, pageSize}, context) => {
-        const {error} = context
-        if (error) {
-            throw new Error(error)
-        }
-
+    search: authenticated(async (_, {searchString, page, pageSize}, context) => {
         const defaultPage = config.pagination.page
         const defaultPageSize = config.pagination.pageSize
         const maxPageSize = config.pagination.maxPageSize
@@ -34,5 +22,9 @@ module.exports = {
             : pageSize ? maxPageSize : defaultPageSize
 
         return await ProductService.search(searchString, +page, +pageSize)
-    }
+    })
 }
+
+const mutations = {}
+
+module.exports = { queries, mutations }

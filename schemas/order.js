@@ -17,8 +17,8 @@ const types = `
     type Order {
         _id: ID!
         userId: ID!
-        dateCreated: String!
-        dateModified: String!
+        dateCreated: Date!
+        dateModified: Date!
         items: [OrderItem!]!
     }
 `
