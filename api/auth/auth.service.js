@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-const config = require('../config/config')
-const User = require('../models/user')
+const config = require('../../config/config')
+const User = require('./user.model')
 
 function getToken(user) {
     const payload = {

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Group = require('../models/group')
+const Group = require('./group.model')
 
 class GroupService {
     async getGroups() {

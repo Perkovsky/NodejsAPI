@@ -21,16 +21,18 @@
   },
   "homepage": "https://github.com/Perkovsky/NodejsAPI#readme",
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "bcrypt": "^5.0.0",
-    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-validator": "^6.6.0",
     "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compress": "^5.0.1",
+    "koa-helmet": "^5.2.0",
+    "koa-router": "^9.4.0",
     "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
     "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4",
     "winston": "^3.3.3"
   },
   "devDependencies": {

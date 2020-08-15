@@ -1,8 +1,10 @@
+const config = require('./config')
+
 module.exports = {
     definition: {
         openapi: '3.0.3',
         info: {
-            version: '1.0.0',
+            version: `${config.version}.0.0`,
             title: 'Node.js API',
             description: 'Node.js API - a test project.',
             contact: {
@@ -25,13 +27,13 @@ module.exports = {
         }
     },
     apis: [
-        './controllers/authController.js',
-        './controllers/groupController.js',
-        './controllers/productController.js',
-        './controllers/orderController.js',
-        './models/user.js',
-        './models/group.js',
-        './models/product.js',
-        './models/order.js'
+        './api/auth/auth.controller.js',
+        './api/auth/user.model.js',
+        './api/groups/group.controller.js',
+        './api/groups/group.model.js',
+        './api/products/product.controller.js',
+        './api/products/product.model.js',
+        './api/orders/order.controller.js',
+        './api/orders/order.model.js'
     ]
   }

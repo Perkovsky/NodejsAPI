@@ -1,5 +1,11 @@
-module.exports = function (err, req, res, next) {
-    err.statusCode = err.statusCode || 500
-    err.status = err.status || 'error'
-    res.status(err.statusCode).send(err.message)
+module.exports = async (ctx, next) => {
+    try {
+        await next()
+    } catch (err) {
+        ctx.status = err.status || 500
+        ctx.body = {
+            status: 'failed',
+            message: err.message || 'Internal server error'
+        }
+    }
 }

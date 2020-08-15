@@ -1,30 +1,39 @@
-const express = require('express')
-const swaggerUi = require("swagger-ui-express")
-const swaggerJSDoc = require('swagger-jsdoc')
-const swaggerConfig = require('./config/swaggerConfig')
+const Koa = require('koa')
+const bodyParser = require('koa-bodyparser')()
+const compress = require('koa-compress')()
+const cors = require('@koa/cors')(/* Add your cors option */)
+const helmet = require('koa-helmet')(/* Add your security option */)
+
+// const swaggerUi = require('swagger-koa')
+// const swaggerJSDoc = require('swagger-jsdoc')
+// const swaggerConfig = require('./config/swaggerConfig')
+
 const mongoose = require('mongoose')
-const cors = require('cors')
 const morgan = require('morgan')
 const config = require('./config/config')
-const routes = require('./routes/index')
 const logger = require('./infrastructure/logger')
 const logErrors = require('./middlewares/logErrors')
 const errorHandler = require('./middlewares/errorHandler')
-const app = express()
+const applyApiMiddleware = require('./api')
+const app = new Koa()
 
-app.use(morgan('tiny', { stream: logger.stream }))
-app.use(express.json())
-app.use(cors())
+mongoose.set('debug', true)
 
-// Swagger
-const swaggerSpec = swaggerJSDoc(swaggerConfig)
-app.use(config.swagger.uri, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-app.get('/', (req, res) => res.redirect(config.swagger.uri))
+//// Swagger
+//const swaggerSpec = swaggerJSDoc(swaggerConfig)
+//app.use(config.swagger.uri, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+//app.get('/', ctx => ctx.redirect(config.swagger.uri))
 
-app.use('/api', routes)
-
+//app.use(morgan('tiny', { stream: logger.stream }))
 app.use(logErrors)
 app.use(errorHandler)
+app.use(helmet)
+app.use(compress)
+app.use(cors)
+app.use(bodyParser)
+
+applyApiMiddleware(app)
+
 // process.on('unhandledRejection', err => {
 //     console.log(err.name, err.message)
 //     console.log('UNHANDLED REJECTION! Shutting down...')

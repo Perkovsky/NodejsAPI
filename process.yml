@@ -1,0 +1,5 @@
+apps:
+  - script   : ./index.js
+    name     : 'Koa.js REST API'
+    instances: 4
+    exec_mode: cluster
