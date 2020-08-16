@@ -7,5 +7,6 @@ module.exports = async (ctx, next) => {
             status: 'failed',
             message: err.message || 'Internal server error'
         }
+        throw err
     }
 }

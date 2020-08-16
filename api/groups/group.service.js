@@ -1,4 +1,3 @@
-const mongoose = require('mongoose')
 const Group = require('./group.model')
 
 class GroupService {

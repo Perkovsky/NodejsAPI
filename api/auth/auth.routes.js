@@ -3,7 +3,7 @@ const controller = require('./auth.controller')
 
 module.exports = Router => {
     const router = new Router({
-        prefix: `/auth`
+        prefix: ``
     })
 
     router.post('/register', /*registerValidate(),*/ controller.register)

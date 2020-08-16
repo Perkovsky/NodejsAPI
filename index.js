@@ -3,11 +3,6 @@ const bodyParser = require('koa-bodyparser')()
 const compress = require('koa-compress')()
 const cors = require('@koa/cors')(/* Add your cors option */)
 const helmet = require('koa-helmet')(/* Add your security option */)
-
-// const swaggerUi = require('swagger-koa')
-// const swaggerJSDoc = require('swagger-jsdoc')
-// const swaggerConfig = require('./config/swaggerConfig')
-
 const mongoose = require('mongoose')
 const morgan = require('morgan')
 const config = require('./config/config')
@@ -18,11 +13,6 @@ const applyApiMiddleware = require('./api')
 const app = new Koa()
 
 mongoose.set('debug', true)
-
-//// Swagger
-//const swaggerSpec = swaggerJSDoc(swaggerConfig)
-//app.use(config.swagger.uri, swaggerUi.serve, swaggerUi.setup(swaggerSpec))
-//app.get('/', ctx => ctx.redirect(config.swagger.uri))
 
 //app.use(morgan('tiny', { stream: logger.stream }))
 app.use(logErrors)

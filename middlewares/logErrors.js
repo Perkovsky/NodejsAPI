@@ -15,6 +15,6 @@ module.exports = async (ctx, next) => {
             userAgent: ctx.req.headers['user-agent'],
             stackTrace: err.stack
         })
-        await next()
     }
 }
+

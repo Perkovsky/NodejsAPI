@@ -12,13 +12,17 @@ module.exports = async (ctx, next) => {
     const secret = config.authentication.jwtSecret
     const token = ctx.req.headers.authorization.split(" ")[1]
 
-    jwt.verify(token, secret, async (err, decode) => {
-        if (err) {
-            ctx.status = 401
-            ctx.body = 'Access token is missing or invalid.'
-        } else {
-            ctx.body = { user: decode }
-            await next()
-        }
+    await new Promise((resolve, reject) => {
+        jwt.verify(token, secret, async (err, decode) => {
+            if (err) {
+                ctx.status = 401
+                ctx.body = 'Access token is missing or invalid.'
+                reject()
+            } else {
+                ctx.user = decode
+                await next()
+                resolve(decode)
+            }
+        })
     })
 }
