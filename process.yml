@@ -1,5 +1,10 @@
 apps:
-  - script   : ./index.js
+  - script   : ./server/index.js
+    cwd      : ./server/
     name     : 'Koa.js REST API'
-    instances: 4
+    instances: 3
     exec_mode: cluster
+  - script   : ./client/node_modules/@vue/cli-service/bin/vue-cli-service.js
+    args     : serve
+    cwd      : ./client/
+    name     : 'Vue.js + Vuetify.js'
