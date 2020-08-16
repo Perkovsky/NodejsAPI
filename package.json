@@ -30,8 +30,10 @@
     "koa-compress": "^5.0.1",
     "koa-helmet": "^5.2.0",
     "koa-morgan": "^1.0.1",
+    "koa-req-validation": "^0.13.0",
     "koa-router": "^9.4.0",
     "mongoose": "^5.9.25",
+    "validator": "^13.1.1",
     "winston": "^3.3.3"
   },
   "devDependencies": {

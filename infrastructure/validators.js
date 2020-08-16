@@ -1,42 +1,33 @@
-const {body, validationResult} = require('express-validator') 
-const User = require('../models/user')
-const logger = require('./logger')
+const { body, validationResults } = require('koa-req-validation') 
+const User = require('../api/auth/user.model')
 
-exports.registerValidate = () => {
-    const validations = [
-        body('email')
-            .isEmail()
-            .withMessage('Incorrect email.')
-            .custom(async (value, {req}) => {
-                try {
-                    const user = await User.findOne({ email: value.toLowerCase() })
-                    if (user) {
-                        return Promise.reject('This email is already taken.')
-                    }
-                } catch (error) {
-                    logger.error(error.stack)
-                    return Promise.reject('Cannot check email for duplicates.')
-                }
-            })
-            .normalizeEmail(),
-        body('password')
-            .isLength({min: 6})
-            .withMessage('Password must be at least 6 characters.')
-            .trim(),
-        body('name')
-            .isLength({min: 3})
-            .withMessage('Name must be at least 3 characters.')
-            .trim()
-    ]
-
-    return async (req, res, next) => {
-        await Promise.all(validations.map(validation => validation.run(req)))
-        const errors = validationResult(req)
-        
-        if (errors.isEmpty()) {
-            return next()
+exports.registerValidator = [
+    body('email')
+        .isEmail()
+        .withMessage('Incorrect email.')
+        .custom(async value => {
+            const user = await User.findOne({ email: value.toLowerCase() })
+            if (user) throw new Error('This email is already taken.')
+        })
+        .normalizeEmail()
+        .build(),
+    body('password')
+        .isLength({min: 6})
+        .withMessage('Password must be at least 6 characters.')
+        .trim()
+        .build(),
+    body('name')
+        .isLength({min: 3})
+        .withMessage('Name must be at least 3 characters.')
+        .trim()
+        .build(),
+    async (ctx, next) => {
+        const errors = validationResults(ctx)
+        if (errors.hasErrors()) {
+            ctx.status = 400
+            ctx.body = { errors: errors.mapped() }
+        } else {
+            await next()
         }
-  
-        res.status(400).json({errors: errors.array()})
     }
-}
+]
