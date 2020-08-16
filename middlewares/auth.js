@@ -19,9 +19,13 @@ module.exports = async (ctx, next) => {
                 ctx.body = 'Access token is missing or invalid.'
                 reject()
             } else {
-                ctx.user = decode
-                await next()
-                resolve(decode)
+                try {
+                    ctx.user = decode
+                    await next()
+                    resolve(decode)
+                } catch (error) {
+                    reject(error)
+                }
             }
         })
     })
