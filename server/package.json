@@ -22,18 +22,14 @@
   "homepage": "https://github.com/Perkovsky/NodejsAPI#readme",
   "dependencies": {
     "@koa/cors": "^3.1.0",
-    "bcrypt": "^5.0.0",
     "dotenv": "^8.2.0",
-    "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
     "koa-bodyparser": "^4.3.0",
     "koa-compress": "^5.0.1",
     "koa-helmet": "^5.2.0",
     "koa-morgan": "^1.0.1",
-    "koa-req-validation": "^0.13.0",
     "koa-router": "^9.4.0",
-    "mongoose": "^5.9.25",
-    "validator": "^13.1.1",
+    "uuid": "^8.3.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
