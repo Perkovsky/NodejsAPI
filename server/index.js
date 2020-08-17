@@ -3,6 +3,7 @@ const bodyParser = require('koa-bodyparser')()
 const compress = require('koa-compress')()
 const cors = require('@koa/cors')(/* Add your cors option */)
 const helmet = require('koa-helmet')(/* Add your security option */)
+const mongoose = require('mongoose')
 const morgan = require('koa-morgan')
 const config = require('./config/config')
 const logger = require('./infrastructure/logger')
@@ -10,6 +11,8 @@ const logErrors = require('./middlewares/logErrors')
 const errorHandler = require('./middlewares/errorHandler')
 const applyApiMiddleware = require('./api')
 const app = new Koa()
+
+mongoose.set('debug', true)
 
 app.use(morgan('tiny', { stream: logger.stream }))
 app.use(logErrors)
@@ -29,6 +32,10 @@ applyApiMiddleware(app)
 
 async function start() {
     try {
+        await mongoose.connect(config.db.connectionString, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true
+        })
         app.listen(+config.port, config.host, () => console.log(`Server is running on port ${config.port}`))
     } catch (error) {
         logger.error(error.stack)
