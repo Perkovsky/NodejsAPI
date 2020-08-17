@@ -12,25 +12,33 @@
         />
         <v-toolbar-title><h1 class="font-weight-light">Dashboard</h1></v-toolbar-title>
       </div>
+      <v-spacer></v-spacer>
+      <v-tooltip bottom v-if="isUserAuthorized">
+        <template v-slot:activator="{ on, attrs }">
+           <v-icon icon dark v-bind="attrs" v-on="on" @click="onLogout">mdi-logout</v-icon>
+        </template>
+        <span>Logout from {{user.name}}</span>
+      </v-tooltip>
     </v-app-bar>
     <v-main>
-      <v-container fluid>
-        <v-row>
-          <v-col cols="12">
-            <v-row align="center" justify="center" class="height-100 grey lighten-5">
-              <v-card class="ma-3 pa-6 wbn text-center" outlined tile>{{ nFirst }}</v-card>
-              <v-card class="ma-3 pa-6 wbn text-center" outlined tile>{{ nSecond }}</v-card>
-              <v-card class="ma-3 pa-6 wbn text-center" outlined tile>{{ nThird }}</v-card>
-            </v-row>
-          </v-col>
-          <v-col cols="12">
-            <v-row align="start" justify="center" class="grey lighten-5">
-              <v-card class="ma-3 pa-5 wbuuid text-center" outlined tile>{{ uuid }}</v-card>
-            </v-row>
-          </v-col>
-        </v-row>
-      </v-container>
+      <router-view />
     </v-main>
+    <template v-if="error">
+      <v-snackbar
+        color="error"
+        :multi-line="true"
+        :timeout="5000"
+        :value="true"
+        @input="closeError"
+        >{{error}}
+        <v-btn
+          dark
+          text
+          @click.native="closeError"
+        >Close
+        </v-btn>
+      </v-snackbar>
+    </template>
   </v-app>
 </template>
 
@@ -39,11 +47,27 @@ export default {
   name: 'App',
   data () {
     return {
-      nFirst: 17,
-      nSecond: 5,
-      nThird: 247,
-      uuid: '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
     }
+  },
+  methods: {
+    closeError () {
+      this.$store.dispatch('clearError')
+    },
+    onLogout () {
+      this.$store.dispatch('logout')
+      this.$router.push('/login')
+    }
+  }, 
+  computed: {
+    error () {
+      return this.$store.getters.error
+    },
+    user () {
+      return this.$store.getters.user
+    },
+    isUserAuthorized () {
+      return this.user !== null
+    },
   }
 }
 </script>
