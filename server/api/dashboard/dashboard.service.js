@@ -5,9 +5,9 @@ class DashboardService {
         return await new Promise((resolve, reject) => {
             try {
                 const result = {
-                    first: Math.trunc(Math.random() * 1000),
-                    second: Math.trunc(Math.random() * 1000),
-                    third: Math.trunc(Math.random() * 1000),
+                    c1: Math.trunc(Math.random() * 1000),
+                    c2: Math.trunc(Math.random() * 1000),
+                    c3: Math.trunc(Math.random() * 1000),
                     uuid: uuidv4()
                 }
                 resolve(result)

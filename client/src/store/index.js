@@ -3,13 +3,19 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import common from './common'
 import user from './user'
+import dashboard from './dashboard'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     common,
-    user
+    user,
+    dashboard
   },
-  plugins: [createPersistedState()]
+  plugins: [
+    createPersistedState({
+      paths: [ 'user' ]
+    })
+  ]
 })

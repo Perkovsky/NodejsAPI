@@ -2,9 +2,19 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import vuetify from './plugins/vuetify';
+import vuetify from './plugins/vuetify'
+import VueSocketIO from 'vue-socket.io'
 
 Vue.config.productionTip = false
+
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: process.env.VUE_APP_SOCKET_DASHBOARD_URL,
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_'
+  }
+}))
 
 new Vue({
   router,
